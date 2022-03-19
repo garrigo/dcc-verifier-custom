@@ -1,0 +1,20 @@
+{
+  "valueSetDate": "2021-04-27", 
+  "valueSetId": "signature-algorithm-used", 
+  "valueSetValues": {
+    "0": {
+      "active": true, 
+      "display": "ECDSA-P256", 
+      "lang": "en", 
+      "signatureBytes": 64, 
+      "version": "2.69"
+    }, 
+    "1": {
+      "active": true, 
+      "display": "RSA", 
+      "lang": "en", 
+      "signatureBytes": 256, 
+      "version": "2.69"
+    }
+  }
+}

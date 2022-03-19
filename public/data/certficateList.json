@@ -1,0 +1,51 @@
+{
+  "ECDSA": {
+    "1": {
+      "fingerprint": "49977bf5f4b79d634749499061e7c79cb3217fc112aae6540f36a2cf7e51bb28", 
+      "issuer": "C=IT,ST=Italy,L=Maggica Roma,O=Er pupone,OU=Pupone,CN=Ilary", 
+      "notBefore": "2021-12-01 14:09:40", 
+      "not_after": "2021-12-31 14:09:40", 
+      "publicKeyPem": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAETbMXaEjfMunKT2TUq99Gd4Ap+RjZ\nDt/RCxDy5Rk835jY2qBvPz4fqJQ6Pscm70JlFGVn11QZ40kEnNbc/M3Ktw==", 
+      "serialNumber": 728761719339543498771839790986566291524307336500, 
+      "subject": "C=IT,ST=Italy,L=Maggica Roma,O=Er pupone,OU=Pupone,CN=Ilary"
+    }, 
+    "2": {
+      "fingerprint": "5fe455714e46a11c84b8141098790845d27388aa30db593e3e6590aa8668c7fb", 
+      "issuer": "C=IT,ST=Italy,L=Venice,O=Internet Widgits Pty Ltd", 
+      "notBefore": "2022-03-10 18:09:13", 
+      "not_after": "2023-03-10 18:09:13", 
+      "publicKeyPem": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEbHoqDeFIe/mFI3i0atXbq+zYimlC\nyyBa98laZjHLJ33s5ZUbh2KqLhqE77ZO+jqJJfr+S3m7s4gSoBVWLyJDWA==", 
+      "serialNumber": 456652048722200177551091643610885440073471122905, 
+      "subject": "C=IT,ST=Italy,L=Venice,O=Internet Widgits Pty Ltd"
+    }, 
+    "3": {
+      "fingerprint": "697f7de52f939122271c38ad462870f7f28a64bf1fc10f8b4bd800251d7746ba", 
+      "issuer": "C=AU,ST=Austria,L=Vienna,O=Revoke", 
+      "notBefore": "2022-03-11 18:45:27", 
+      "not_after": "2023-03-11 18:45:27", 
+      "publicKeyPem": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEFg7oh1hbZjdULaA3Fg4Wwl0Lp/JH\nbV+RrSR5pAvawiFdLalgHzacBx7U314WrzvJHLJkGaUcZ3vHcAJXNKU37A==", 
+      "serialNumber": 119920582303495382133020024407347612288788504611, 
+      "subject": "C=AU,ST=Austria,L=Vienna,O=Revoke"
+    }
+  }, 
+  "RSA": {
+    "1": {
+      "fingerprint": "7543e0d3e582d7e02e3e2da705893aa2579aa0c408d55bfe8691b13c91ea5080", 
+      "issuer": "C=IT,ST=Italy,L=Milan,O=RSA-1", 
+      "notBefore": "2022-03-17 14:40:08", 
+      "not_after": "2023-03-17 14:40:08", 
+      "publicKeyPem": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp0M2JxB5lQ0dROj19FTH\nktHs4um4t0WpcgQv9J6+Ih4nWrLPf6e5JMAFNBhLPyjvl2/vEdn2yOufb8jXsw6o\nL2pA0uLvrIKNnRwWPcwR8KXMfjDRxFa/l2/VYfmmvrh0P9jvfCGBNGGsg7Uz6QUI\nE3S/rS5h4joyyAXZ8nyxQMIUkGZhbnd26OLW1EOxoCARDhlpyWcrY0fANAWuUm8H\nkZrsdyPRjGrpshK6a5FxfhiL6zt6b7MjHcMUes8WfY3T7qBkIbBDizLCUCFZCm7h\nG9STxv7NfrhP9+RyzMyIB+FNMO3dsKM+UOlpYNgVI/J6Au8Bespwf0UewkflgG8l\n9wIDAQAB", 
+      "serialNumber": 244243520918214051366378698727087920538281723989, 
+      "subject": "C=IT,ST=Italy,L=Milan,O=RSA-1"
+    }, 
+    "2": {
+      "fingerprint": "85ec1bad692ce9dd5b06eaa47a6297541ca51ffe3e04b3980bfa79d2ce0e6138", 
+      "issuer": "C=IT,ST=Italy,L=Florence,O=RSA-2", 
+      "notBefore": "2022-03-17 14:43:43", 
+      "not_after": "2023-03-17 14:43:43", 
+      "publicKeyPem": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtnVadsGKJHL1+TA1IiqJ\nZGTd0+pDux5M6uaJrwelavZ2rJQjHrbWNXhN9kNNHh4PXdqGNz/rbQIiS7Rofuj5\nctvpMAwV23QMr6dVmRtBzg3iR4EVIVMkT0SNjg0NAEpYl+0r22IVTzpmUU5fT8mQ\nTefJ9PCgMZPzuIHqqv6EF9w/zGgEqtSLwE0LSF94eEtFB72AK6ANHXmbv7nSjzzU\nwAq66zDXGlY2975zGjFUACiFfs3uonHiOxivfLCAFyIALsr3gX6A0nJXdOVthPRt\nqwzT8CAGHV+Mk4ZUFE5k2sVMozkrUNhBTUuglVUJhrhhAX5qOplZ3RfvToPVUG8n\nGQIDAQAB", 
+      "serialNumber": 278428043137511905451602777429577893590896591911, 
+      "subject": "C=IT,ST=Italy,L=Florence,O=RSA-2"
+    }
+  }
+}

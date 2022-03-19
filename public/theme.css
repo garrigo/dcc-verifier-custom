@@ -1,0 +1,48 @@
+/* dark and light mode settings */
+@media (prefers-color-scheme: dark) {
+    body, .offcanvas, .card { background: #333; color: white; }
+}
+  
+@media (prefers-color-scheme: light) {
+    body, .offcanvas, .card { background: white; color: black; }
+}
+
+/* draggable region */
+.btn, a, body, .offcanvas {
+    -webkit-app-region: no-drag;
+}
+
+nav {
+    -webkit-app-region: drag;
+}
+
+li:not(:first-of-type){
+    margin-top: 1.5em;
+}
+
+img{
+    margin-top: 0.9em;
+    margin-bottom: 0.9em;
+}
+
+@media only screen and (max-width: 519px){
+    .navbar-brand{
+        width: 100%;
+    }
+    .navbar .nav-item:first-child{
+        margin-left:0;
+    }
+}
+
+@media only screen and (min-width: 520px){
+    #nav-home{
+        margin-left: auto;
+    }
+    .navbar .nav-item {
+        padding: 0 0.5em;
+    }
+    
+    .navbar .nav-item:not(:last-child){
+        border-right: 1px solid #000000;
+    }
+}

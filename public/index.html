@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>DCC QR Verifier</title>
+    <!-- bootstrap stuff -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+    crossorigin="anonymous">
+  <script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="./theme.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="img/icon.png">
+</head>
+
+<body>
+    <script type="text/javascript" src="./lib/html5-qrcode.min.js"></script>
+    <script type="text/javascript" src="./lib/qr-code-styling.js"></script>
+    <script type="text/javascript" src="./lib/lang.js"></script>
+    <!-- build via browserify dcc.js --standalone DCC > dcc-browser.js -->
+    <script type="module" src="./lib/dcc-browser.js"></script>
+    <script type="module" src="./lib/crypto.js"></script>
+    <script type="module" src="./lib/rule-browser.js"></script>
+
+    <!-- main script import -->
+    <script type="module" src="core.js"></script>
+
+    <!-- navbar -->
+    <nav class="navbar navbar-dark bg-primary" style="padding-top: 20px;" aria-labelledby="nav-title">
+        <div class="container-fluid">
+            <div class="navbar-brand">
+                <span id="nav-title"></span>
+            </div>
+            <div id="nav-home" class="nav-item" style=" margin-right: 0;">
+                <span><a id="nav-home-btn" style="color: white;">Home</a></span>
+            </div>
+            <div class="nav-item" style=" margin-right: 0; margin-left: 0">
+                <span><a id="nav-faq-btn" style="color: white;" href="#">FAQ</a></span>
+            </div>
+            <div class="nav-item" style="margin-right: 0; margin-left: 0;">
+                <span><a id="ita" style="color:white">ITA</a></span>
+                <math>
+                    <mfenced>
+                        <mo separator="true" style="color:white">/</mo>
+                    </mfenced>
+                </math>
+                <span><a id="eng" style="color:white" href="#">ENG</a></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- FAQ section -->
+    <div class="collapse" id="faq-container" style="width: 85%; margin: auto;">
+        <div class="row p-2">
+            <h3 id="faq-title">FAQ</h3>
+        </div>
+
+        <div id="faqText" style="display: table;">
+            <ol style="width:100%;">
+                <li><b class="question"></b>
+                    <div id="question1"></div>
+                </li>
+                <b class="answer"></b>
+                <div id="answer1"></div>
+                <li><b class="question"></b>
+                    <div id="question2"></div>
+                </li>
+                <b class="answer"></b>
+                <div id="answer2"></div>
+                <li><b class="question"></b>
+                    <div id="question7"></div>
+                </li>
+                <b class="answer"></b>
+                <div id="answer7"></div>
+                <li><b class="question"></b>
+                    <div id="question3"></div>
+                </li>
+                <b class="answer"></b>
+                <div id="answer3"></div>
+                <details>
+                    <summary><b class="adv-detail"></b></summary>
+                    <div id="advanced-faq-1">
+
+                        <div id="adv-ans3"></div>
+
+                        <ul>
+                            <li>
+                                <b id="adv-ans3-file-sel1"></b>
+                                <div id="adv-ans3-file-sel2"></div>
+                                <br><a href="./img/local_request.png" target="_blank"><img
+                                        class="img-fluid img-thumbnail" src="./img/local_request.png"></a><br>
+                                <div id="adv-ans3-file-sel3"></div>
+                                <br><a href="./img/network_request.png" target="_blank"><img
+                                        class="img-fluid img-thumbnail" src="./img/network_request.png"></a><br>
+                            </li>
+                        </ul>
+
+                        <ul>
+                            <li>
+                                <b id="adv-ans3-qr-scan1"></b>
+                                <div id="adv-ans3-qr-scan2"></div>
+                            </li>
+                        </ul>
+
+                        <ul>
+                            <li>
+                                <b id="adv-ans3-qr-gen1"></b>
+                                <div id="adv-ans3-qr-gen2"></div>
+                            </li>
+                        </ul>
+
+                    </div>
+                </details>
+                <li><b class="question"></b>
+                    <div id="question4"></div>
+                </li>
+                <b class="answer"></b>
+                <div id="answer4"></div>
+                <li><b class="question"></b>
+                    <div id="question5"></div>
+                </li>
+                <b class="answer"></b>
+                <div id="answer5"></div>
+                <details>
+                    <summary><b class="adv-detail"></b></summary>
+                    <div id="advanced-faq-2">
+                        <div id="adv-ans5"></div>
+                    </div>
+                </details>
+                <li><b class="question"></b>
+                    <div id="question6"></div>
+                </li>
+                <b class="answer"></b>
+                <div id="answer6"></div>
+            </ol>
+        </div>
+    </div>
+
+    <!-- home -->
+    <div id="main-container" class="rowd-flex flex-column mx-auto" style="width: 85%;">
+        <div class="row p-2">
+            <h3 id="main-title"></h3>
+        </div>
+        <div class="row p-2" style="display: table">
+            <label id="file-selector-label" class="btn btn-primary" for="file-selector"></label>
+            <!--  accept="image/*" -->
+            <input type="file" style="display:none" id="file-selector">
+            <!-- <small class="text-muted" id="upload-file-info"></small> file info label-->
+        </div>
+
+        <div class="row p-2" style="display: table">
+            <input type="button" class="btn btn-success" id="qrcamera-btn">
+        </div>
+        <div id="reader"></div>
+
+        <div class="row p-2" style="display: table">
+            <div id="error-msg" role="alert"></div>
+        </div>
+
+        <div class="row p-2" style="display: table">
+            <div id="result-msg" role="alert"></div>
+        </div>
+
+        <div class="row p-2">
+            <div class="max-vw-50" id="qrcode-canvas"></div>
+        </div>
+        <div id="resultborder" class="row-md-auto border rounded" style="height: 75%; margin-top: 3%; display: none;">
+            <div class="col-md my-auto" style="margin: auto;">
+
+                <h3>
+                    <div id="contentresult" style="color: white;"></div>
+                </h3><br>
+                <h4>
+                    <div style="color: lightgray;">Name:</div>
+                </h4>
+                <h3>
+                    <div id="userdata-name" style="color:white"></div>
+                </h3><br>
+                <h4>
+                    <div style="color: lightgray;">Date of birth:</div>
+                </h4>
+                <h3>
+                    <div id="userdata-dob" style="color:white"></div>
+                </h3>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
