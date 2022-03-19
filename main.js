@@ -53,7 +53,7 @@ function createWindow() {
     // set color mode to follow system settings
     nativeTheme.themeSource = 'system'
     // debug console
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools()
     win.loadFile(path.join(__dirname, '/public/index.html'))
 
 }

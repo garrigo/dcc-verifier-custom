@@ -14,6 +14,6 @@
  [Use http-server](https://www.npmjs.com/package/http-server) to launch in browser.
 
 # Live demo
-Live demo is available [at this link](https://mcarfiz.github.io/dcc-optimizer-js) thanks to GitHub pages.
+Live demo is available [at this link](https://garrigo.github.io/dcc-verifier-custom) thanks to GitHub pages.
 
 

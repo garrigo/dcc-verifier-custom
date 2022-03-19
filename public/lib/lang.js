@@ -1,6 +1,6 @@
 let ita = {
     "home": {
-        "nav-title": "Verificatore QR Green Pass",
+        "nav-title": "Verificatore Green Pass",
         "main-title": "Indica l'immagine con il codice QR del Green Pass:",
         "sub-title": "Formati supportati: ",
         "file-selector": "Scegli immagine",
@@ -45,7 +45,7 @@ let ita = {
 
 let eng = {
     "home": {
-        "nav-title": "DCC QR Verifier",
+        "nav-title": "DCC Verifier",
         "main-title": "Provide your QR Covid Certificate:",
         "file-selector": "Choose image",
         "qrcamera-btn": "Scan QR Code",
