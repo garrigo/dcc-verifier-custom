@@ -2,6 +2,7 @@ const { app, BrowserWindow, nativeTheme, session} = require("electron");
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
+//simulate DCC gateway/issuer in local
 const GATEWAY_URL = "192.168.1.111";
 const LocalStorage = require('node-localstorage').LocalStorage;
 var localStorage = new LocalStorage(path.join(__dirname, "/public/data"));
@@ -24,7 +25,7 @@ async function downloadList(url, urlPath, fsPath){
         port: 5000,
         path: urlPath,
         method: 'GET',
-        //WARNING: certificates are not checked for testing with self signed certificates
+        //WARNING: certificates are not checked in order to test with self signed certificates
         rejectUnauthorized: false
     }
     let result;
@@ -64,6 +65,7 @@ app.whenReady().then(() => {
         callback({
           responseHeaders: {
             ...details.responseHeaders,
+            // buggy style-src csp, bad 'unsafe-inline' needed in order to load CSS
             // 'Content-Security-Policy-Report-Only', "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; frame-src 'self'"
             'Content-Security-Policy': ["\
             default-src 'self'; \

@@ -164,12 +164,10 @@ async function verify(result) {
                         certNotValid(`${dcc.name} ${dcc.surname}`, dob);
                     }
                 });
-            }).catch(err => {
-                certNotValid(`N/A`, `N/A`);
             });
         })
-        .catch(error => {
-                console.log(error)
+        .catch(err => {
+            certNotValid(`N/A`, `N/A`);
         });
 
 
@@ -192,8 +190,7 @@ const areRulesValid = async function (dcc) {
             if (!rule_valid) return false;
             
         } catch (error) {
-            console.log(error);
-            return false;
+            throw new Error('Rules evaluation error');
         }
     }
     return true;
