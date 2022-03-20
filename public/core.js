@@ -63,6 +63,20 @@ async function loadExternal(){
     .catch(error => {
         console.error("Cannot fetch algorithm list: " + error);
     });
+
+    await fetch('./data/blueprint.json')
+    .then(response => {
+        if (response.ok)
+            return response.json();
+        else
+            throw new Error('Fetching error');
+    })
+    .then(data => {
+        external.blueprint = data;
+    })
+    .catch(error => {
+        console.error("Cannot fetch blueprint: " + error);
+    });
 }
 // on load: load localization and set up qrscanner engine
 $(document).ready(async function () {
@@ -116,19 +130,19 @@ async function verify(result) {
             .then(data => {
                 try{
                     var pk_raw;       
-                    if (dcc.algo === '0'){
+                    if (dcc.algorithm === 0){
                         pk_raw = data["ECDSA"][dcc.kid]["publicKeyPem"];
                     }   
-                    else if (dcc.algo === '1')
+                    else if (dcc.algorithm === 1)
                         pk_raw = data["RSA"][dcc.kid]["publicKeyPem"];
                 }
                 catch (error){
                     throw new Error("ERROR: Algorithm not found.")
                 }
                 var pk = "-----BEGIN PUBLIC KEY-----\n"+pk_raw+"\n-----END PUBLIC KEY-----";
-                window.verify(dcc.payload, dcc.signature, pk, dcc.algo)
+                window.verify(dcc.payload, dcc.signature, pk, dcc.algorithm)
                 .then(result =>{
-                    var d = new Date(dcc.birth*1000)
+                    var d = new Date(dcc.date_of_birth)
                     var dob = ('0'+d.getUTCDate()).slice(-2) + '/' + ('0'+(d.getUTCMonth()+1)).slice(-2) + '/' + d.getUTCFullYear();
                     if(result){
                         areRulesValid(dcc).then( result =>{

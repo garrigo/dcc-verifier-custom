@@ -28069,7 +28069,7 @@ const buffer = require('buffer');
 const sha256 = require('js-sha256');
 
 async function verify(payload, signature, public_key, algorithm){
-  if (algorithm === '0'){
+  if (algorithm === 0){
     var ec = new ECDSA('p256');
     const ver = crypto.Verify('sha256');
     var buf = new Uint8Array(signature);
@@ -28089,7 +28089,7 @@ async function verify(payload, signature, public_key, algorithm){
 
     // modified: function verify (sig, hash, key, signType, tag)
   }
-  else if (algorithm === '1'){
+  else if (algorithm === 1){
     const key = new RSA(public_key);
     return key.verify(payload, signature)
   }

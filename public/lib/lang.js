@@ -34,8 +34,8 @@ let eng = {
         "radio-it": "Support only VerificaC19 Italian app. (Lighter, <a id='setting-faq-btn' href='#'>read FAQ</a>)",
         "success-msg": "QR has been correctly generated.",
         "download-btn": "Download QR code",
-        "valid": "Certificate is VALID.",
-        "not_valid": "Certificate is NOT VALID."
+        "valid": "The certificate is VALID.",
+        "not_valid": "The certificate is NOT VALID."
     },
     "faq": {
         "nav-title": "Frequently Asked Questions",

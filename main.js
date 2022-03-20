@@ -14,7 +14,8 @@ async function updateList(){
     downloadList(GATEWAY_URL, "/certificateList", "/public/data/certficateList.json");
     downloadList(GATEWAY_URL, "/valueSets", "/public/data/valueSets.json");
     downloadList(GATEWAY_URL, "/rules", "/public/data/rules.json");
-    downloadList(GATEWAY_URL, "/algorithmList", "/public/data/algorithmList.json");    
+    downloadList(GATEWAY_URL, "/algorithmList", "/public/data/algorithmList.json");
+    downloadList(GATEWAY_URL, "/blueprint", "/public/data/blueprint.json");     
     localStorage.setItem('upDate', date);
 }
 
@@ -54,7 +55,7 @@ function createWindow() {
     // set color mode to follow system settings
     nativeTheme.themeSource = 'system'
     // debug console
-    // win.webContents.openDevTools()
+    win.webContents.openDevTools()
     win.loadFile(path.join(__dirname, '/public/index.html'))
 
 }
