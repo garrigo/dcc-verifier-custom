@@ -1,8 +1,8 @@
-# dcc-verifier-js
- A simple web app to optimize the QR code of the DCC
+# dcc-verifier-custom
+ A simple web app to verify a customized version of the DCC.
 
 # Usage
- Install `npm`
+ Install `nodejs`
  
  Install dependencies with
  >npm install
@@ -10,10 +10,5 @@
  Run with
  >npm start
 
- Alternative:
- [Use http-server](https://www.npmjs.com/package/http-server) to launch in browser.
-
 # Live demo
 Live demo is available [at this link](https://garrigo.github.io/dcc-verifier-custom) thanks to GitHub pages.
-
-
