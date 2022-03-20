@@ -1,4 +1,3 @@
-const fileSelector = document.getElementById('file-selector')
 const qrCanvas = document.getElementById('qrcode-canvas')
 const errorMsg = document.getElementById('error-msg')
 const resMsg = document.getElementById('result-msg')
@@ -8,8 +7,6 @@ const usrName = document.getElementById('userdata-name');
 const usrDob = document.getElementById('userdata-dob');
 
 
-import QrScanner from './lib/qr-scanner.js';
-QrScanner.WORKER_PATH = './lib/qr-scanner-worker.min.js';
 
 // camera scan setup
 var html5QrcodeScanner = new Html5Qrcode(/* element id */ "reader");
@@ -18,12 +15,11 @@ var config = { fps: 10, qrbox: { width: document.getElementById('reader').client
 var qrEngine;
 var tab = "home";
 var lang = ita;
-var qr_text = "B10KI9MU0/WN1:1EFG+U4HLVR31B7KF9GA8AAESFTG7YC UU2%N9DAXZA3TAXEF*5MC7L.V6K0DCCSQVS-WN 8N53W1/S6.0DRKLB0GTCEOA.O0TO6E8GRB85IAU09I-0XB9-M8 Y9 N0DQN100100100JB0.O0T*3%2"
 var external={};
+var valid;
 
 async function loadExternal(){
-    var validationClock = DCC.formatDate();
-    external.validationClock = validationClock;
+    external.validationClock = DCC.formatDate();
     var rules = [];
     await fetch('./data/valueSets.json')
     .then(response => {
@@ -36,9 +32,7 @@ async function loadExternal(){
         external.valueSets = data;
     })
     .catch(error => {
-        document.getElementById('errborder').style.display = "flex";
-        errorMsg.className = "alert alert-danger";
-        errorMsg.innerHTML = "Cannot fetch rules value sets: " + error;
+        console.error("Cannot fetch value sets: " + error);
     });
 
     await fetch('./data/rules.json')
@@ -54,9 +48,7 @@ async function loadExternal(){
         external.rules = rules;
     })
     .catch(error => {
-        document.getElementById('errborder').style.display = "flex";
-        errorMsg.className = "alert alert-danger";
-        errorMsg.innerHTML = "Cannot fetch rules value sets: " + error;
+        console.error("Cannot fetch rules: " + error);
     });
     await fetch('./data/algorithmList.json')
     .then(response => {
@@ -69,41 +61,20 @@ async function loadExternal(){
         external.algorithm = data;
     })
     .catch(error => {
-        document.getElementById('errborder').style.display = "flex";
-        errorMsg.className = "alert alert-danger";
-        errorMsg.innerHTML = "Cannot fetch rules value sets: " + error;
+        console.error("Cannot fetch algorithm list: " + error);
     });
 }
 // on load: load localization and set up qrscanner engine
 $(document).ready(async function () {
     load_text();
-    qrEngine = QrScanner.createQrEngine();  
-    await loadExternal();
-    verify(qr_text);
+    loadExternal();
 });
 
-// listener for change on file selector, when a new qr is inserted try to decode it
-fileSelector.addEventListener('change', event => {
-    var file = fileSelector.files[0];
-    if (!file) return;
-    resetPage();
-    // scan qr from image
-    QrScanner.scanImage(file, null, qrEngine)
-        .then(result => {
-            verify(result);
-        })
-        .catch(e => error(e || 'No QR code found.'));
-});
-
-
-fileSelector.addEventListener("click", event => {
-    revertScan();
-});
 
 // camera button listener to activate the camera scanner
 cameraBtn.addEventListener("click", function (element) {
     resetPage();
-    if (cameraBtn.className === "btn btn-success") {
+    if (cameraBtn.className === "btn btn-primary") {
         html5QrcodeScanner.start({ facingMode: "environment" }, config, onScanSuccess)
             .then(success => {
                 cameraBtn.className = "btn btn-danger";
@@ -125,7 +96,7 @@ async function onScanSuccess(decodedText) {
 
 // stop camera scanning
 function revertScan() {
-    cameraBtn.className = "btn btn-success";
+    cameraBtn.className = "btn btn-primary";
     cameraBtn.value = lang["home"]["qrcamera-btn"]
     try { html5QrcodeScanner.stop(); }
     catch (error) { }
@@ -143,12 +114,17 @@ async function verify(result) {
                     throw new Error('Fetching error');
             })
             .then(data => {
-                var pk_raw;       
-                if (dcc.algo === '0'){
-                    pk_raw = data["ECDSA"][dcc.kid]["publicKeyPem"];
-                }   
-                else if (dcc.algo === '1')
-                    pk_raw = data["RSA"][dcc.kid]["publicKeyPem"];
+                try{
+                    var pk_raw;       
+                    if (dcc.algo === '0'){
+                        pk_raw = data["ECDSA"][dcc.kid]["publicKeyPem"];
+                    }   
+                    else if (dcc.algo === '1')
+                        pk_raw = data["RSA"][dcc.kid]["publicKeyPem"];
+                }
+                catch (error){
+                    throw new Error("ERROR: Algorithm not found.")
+                }
                 var pk = "-----BEGIN PUBLIC KEY-----\n"+pk_raw+"\n-----END PUBLIC KEY-----";
                 window.verify(dcc.payload, dcc.signature, pk, dcc.algo)
                 .then(result =>{
@@ -156,18 +132,22 @@ async function verify(result) {
                     var dob = ('0'+d.getUTCDate()).slice(-2) + '/' + ('0'+(d.getUTCMonth()+1)).slice(-2) + '/' + d.getUTCFullYear();
                     if(result){
                         areRulesValid(dcc).then( result =>{
-                            if(result) certValid(`${dcc.name} ${dcc.surname}`, dob);
-                            else certNotValid(`${dcc.name} ${dcc.surname}`, dob);
+                            if(result) certValid(`${dcc.name} ${dcc.surname}`, dob); 
+                            else certNotValid(`${dcc.name} ${dcc.surname}`, dob); 
                         });
                     }
                     else{
                         certNotValid(`${dcc.name} ${dcc.surname}`, dob);
                     }
                 });
+            }).catch(err =>{
+                certNotValid(`N/A`, `N/A`);
+                console.error(err);
             });
         })
         .catch(err => {
             certNotValid(`N/A`, `N/A`);
+            console.error(err)
         });
 
 
@@ -198,7 +178,8 @@ const areRulesValid = async function (dcc) {
 
 // fill result div with error colors and result values
 const certNotValid = function (name, dob) {
-    document.getElementById('contentresult').innerHTML = "Certificate is NOT VALID.";
+    valid=0;
+    load_text();
     resultBorder.style.display = "flex";
     resultBorder.style.color = "red";
     resultBorder.classList.remove("bg-success");
@@ -211,7 +192,8 @@ const certNotValid = function (name, dob) {
 
 // fill result div with success colors and result values
 const certValid = function (name, dob) {
-    document.getElementById('contentresult').innerHTML = "Certificate is VALID.";
+    valid=1;
+    load_text();
     resultBorder.classList.remove("bg-danger");
     resultBorder.classList.remove("border-danger");
     resultBorder.classList.add("border-success");
@@ -258,46 +240,13 @@ function load_text() {
     else
         $('#nav-title').text(lang["faq"]["nav-title"]);
     $('#main-title').html(lang["home"]["main-title"]);
-    $('#file-selector-label').html(lang["home"]["file-selector"]);
     $("#qrcamera-btn").val(lang["home"]["qrcamera-btn"]);
-    $("#radio-label-eu").html(lang["home"]["radio-eu"]);
-    $("#radio-label-it").html(lang["home"]["radio-it"]);
-    if (resMsg.innerHTML)
-        resMsg.innerHTML = lang["home"]["success-msg"];
+    if (valid)
+        $('#contentresult').html(lang["home"]["valid"])
+    else
+        $('#contentresult').html(lang["home"]["not_valid"])
     // faq
-    $('.question').text(lang["faq"]["question"]);
-    $('.answer').text(lang["faq"]["answer"]);
-    $('.adv-detail').text(lang["faq"]["adv-detail"]);
-    $('#question1').html(lang["faq"]["question1"]);
-    $('#answer1').html(lang["faq"]["answer1"]);
-    $('#question2').html(lang["faq"]["question2"]);
-    $('#answer2').html(lang["faq"]["answer2"]);
-    $('#question3').html(lang["faq"]["question3"]);
-    $('#answer3').html(lang["faq"]["answer3"]);
-    $('#question4').html(lang["faq"]["question4"]);
-    $('#answer4').html(lang["faq"]["answer4"]);
-    $('#question5').html(lang["faq"]["question5"]);
-    $('#answer5').html(lang["faq"]["answer5"]);
-    $('#question6').html(lang["faq"]["question6"]);
-    $('#answer6').html(lang["faq"]["answer6"]);
-    $('#question7').html(lang["faq"]["question7"]);
-    $('#answer7').html(lang["faq"]["answer7"]);
-    //$('#question8').html(lang["faq"]["question8"]);
-    //$('#answer8').html(lang["faq"]["answer8"]);
-    $('#adv-ans3').html(lang["faq"]["adv-ans3"]);
-    $('#adv-ans3-file-sel1').html(lang["faq"]["adv-ans3-file-sel1"]);
-    $('#adv-ans3-file-sel2').html(lang["faq"]["adv-ans3-file-sel2"]);
-    $('#adv-ans3-file-sel3').html(lang["faq"]["adv-ans3-file-sel3"]);
-    $('#adv-ans3-qr-scan1').html(lang["faq"]["adv-ans3-qr-scan1"]);
-    $('#adv-ans3-qr-scan2').html(lang["faq"]["adv-ans3-qr-scan2"]);
-    $('#adv-ans3-qr-gen1').html(lang["faq"]["adv-ans3-qr-gen1"]);
-    $('#adv-ans3-qr-gen2').html(lang["faq"]["adv-ans3-qr-gen2"]);
-    $('#adv-ans5').html(lang["faq"]["adv-ans5"]);
 
-    // listener for dinamically generated faq link in advanced settings
-    // document.getElementById("setting-faq-btn").addEventListener("click", function () {
-    //     document.getElementById("nav-faq-btn").click();
-    // }, false);
 }
 
 // italian language on click

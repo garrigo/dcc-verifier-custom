@@ -26,7 +26,6 @@
 
 <body>
     <script type="text/javascript" src="./lib/html5-qrcode.min.js"></script>
-    <script type="text/javascript" src="./lib/qr-code-styling.js"></script>
     <script type="text/javascript" src="./lib/lang.js"></script>
     <!-- build via browserify dcc.js --standalone DCC > dcc-browser.js -->
     <script type="module" src="./lib/dcc-browser.js"></script>
@@ -66,85 +65,6 @@
             <h3 id="faq-title">FAQ</h3>
         </div>
 
-        <div id="faqText" style="display: table;">
-            <ol style="width:100%;">
-                <li><b class="question"></b>
-                    <div id="question1"></div>
-                </li>
-                <b class="answer"></b>
-                <div id="answer1"></div>
-                <li><b class="question"></b>
-                    <div id="question2"></div>
-                </li>
-                <b class="answer"></b>
-                <div id="answer2"></div>
-                <li><b class="question"></b>
-                    <div id="question7"></div>
-                </li>
-                <b class="answer"></b>
-                <div id="answer7"></div>
-                <li><b class="question"></b>
-                    <div id="question3"></div>
-                </li>
-                <b class="answer"></b>
-                <div id="answer3"></div>
-                <details>
-                    <summary><b class="adv-detail"></b></summary>
-                    <div id="advanced-faq-1">
-
-                        <div id="adv-ans3"></div>
-
-                        <ul>
-                            <li>
-                                <b id="adv-ans3-file-sel1"></b>
-                                <div id="adv-ans3-file-sel2"></div>
-                                <br><a href="./img/local_request.png" target="_blank"><img
-                                        class="img-fluid img-thumbnail" src="./img/local_request.png"></a><br>
-                                <div id="adv-ans3-file-sel3"></div>
-                                <br><a href="./img/network_request.png" target="_blank"><img
-                                        class="img-fluid img-thumbnail" src="./img/network_request.png"></a><br>
-                            </li>
-                        </ul>
-
-                        <ul>
-                            <li>
-                                <b id="adv-ans3-qr-scan1"></b>
-                                <div id="adv-ans3-qr-scan2"></div>
-                            </li>
-                        </ul>
-
-                        <ul>
-                            <li>
-                                <b id="adv-ans3-qr-gen1"></b>
-                                <div id="adv-ans3-qr-gen2"></div>
-                            </li>
-                        </ul>
-
-                    </div>
-                </details>
-                <li><b class="question"></b>
-                    <div id="question4"></div>
-                </li>
-                <b class="answer"></b>
-                <div id="answer4"></div>
-                <li><b class="question"></b>
-                    <div id="question5"></div>
-                </li>
-                <b class="answer"></b>
-                <div id="answer5"></div>
-                <details>
-                    <summary><b class="adv-detail"></b></summary>
-                    <div id="advanced-faq-2">
-                        <div id="adv-ans5"></div>
-                    </div>
-                </details>
-                <li><b class="question"></b>
-                    <div id="question6"></div>
-                </li>
-                <b class="answer"></b>
-                <div id="answer6"></div>
-            </ol>
-        </div>
     </div>
 
     <!-- home -->
@@ -152,15 +72,9 @@
         <div class="row p-2">
             <h3 id="main-title"></h3>
         </div>
-        <div class="row p-2" style="display: table">
-            <label id="file-selector-label" class="btn btn-primary" for="file-selector"></label>
-            <!--  accept="image/*" -->
-            <input type="file" style="display:none" id="file-selector">
-            <!-- <small class="text-muted" id="upload-file-info"></small> file info label-->
-        </div>
 
         <div class="row p-2" style="display: table">
-            <input type="button" class="btn btn-success" id="qrcamera-btn">
+            <input type="button" class="btn btn-primary" id="qrcamera-btn">
         </div>
         <div id="reader"></div>
 
