@@ -20,7 +20,34 @@ function hexToUtf8(hex){
   );
 }
 
-
+function decodeDCC(payload, schema){
+  var temp = {}
+  var start = 0;
+  schema.forEach(block =>{
+    if (block.type === "int"){
+      temp[block.id] = parseInt(payload.slice(start, start+block.bytes*2), 16);
+      start += block.bytes*2;
+    }
+    else if (block.type === "string"){
+      var byteCount = parseInt(payload.slice(start, start+block.bytes*2), 16) * 2;
+      start += block.bytes*2;
+      temp[block.id] = hexToUtf8(payload.slice(start, start+byteCount));
+      start += byteCount;
+    }
+    else if (block.type === "date"){
+      var byteCount = parseInt(payload.slice(start, start+block.bytes*2), 16) * 2;
+      start += block.bytes*2;
+      temp[block.id] = DCC.formatDate(parseInt(payload.slice(start, start+byteCount), 16));
+      start += byteCount;
+    }
+    else if (block.type === "switch"){
+      let exclusive = decodeDCC(payload.slice(start), block["cases"][(temp[block["id"]].toString())])
+      temp = {...temp, ...exclusive["data"]}
+      start = exclusive["byte"]
+    }
+  });
+  return {"data":temp, "byte": start};
+}
 
 class DCC {
   static formatDate(date_int=0){
@@ -32,60 +59,45 @@ class DCC {
   static async fromRaw(payload, external) {
     try{
       var dcc = {};
-      dcc.payload = /* zlib.inflateSync */(base45.decode(payload));
+      payload = /* zlib.inflateSync */(base45.decode(payload));
       
       //test with iso 8859-1
       // dcc.payload = Buffer(payload, "latin1")
-
-      dcc.cert_type = 0;
-      var sigBytes = external.algorithm.valueSetValues[(dcc.payload[0]).toString()].signatureBytes;
-      dcc.signature = dcc.payload.slice(-sigBytes);
-      dcc.payload = dcc.payload.slice(0, -sigBytes);
-      payload = new Buffer(dcc.payload).toString('hex');
       
-      var start = 0;
-      var blueprint = external.blueprint.schema[0].shared
-      blueprint.forEach(block =>{
-        if (block.type === "int"){
-          dcc[block.id] = parseInt(payload.slice(start, start+block.bytes*2), 16);
-          start += block.bytes*2;
+      let version = payload[0]
+      let algorithm = parseInt(payload[1])
+      let sigBytes = external.algorithm.valueSetValues[algorithm.toString()].signatureBytes;
+      let signature = payload.slice(-sigBytes);
+      payload = payload.slice(0, -sigBytes);
+      let payload_hex = new Buffer(payload).toString('hex');
+      
+      let kid = parseInt(payload_hex.slice(4, 8), 16).toString();
+
+      try{
+          var pk_raw;       
+          if (algorithm === 0){
+              pk_raw = external.certificate["ECDSA"][kid]["publicKeyPem"];
+          }   
+          else if (algorithm === 1)
+              pk_raw = external.certificate["RSA"][kid]["publicKeyPem"];
+      }
+      catch (error){
+          console.error("ERROR: Algorithm not found.")
+      }
+      var pk = "-----BEGIN PUBLIC KEY-----\n"+pk_raw+"\n-----END PUBLIC KEY-----";
+      await window.verify(payload, signature, pk, algorithm)
+      .then(result =>{
+        if (result){
+          var schema = external.blueprint[(version.toString())]["schema"]
+          dcc = {...dcc, ...decodeDCC(payload_hex, schema)["data"]}
         }
-        else if (block.type === "string"){
-          var byteCount = parseInt(payload.slice(start, start+block.bytes*2), 16) * 2;
-          start += block.bytes*2;
-          dcc[block.id] = hexToUtf8(payload.slice(start, start+byteCount));
-          start += byteCount;
-        }
-        else if (block.type === "date"){
-          var byteCount = parseInt(payload.slice(start, start+block.bytes*2), 16) * 2;
-          start += block.bytes*2;
-          dcc[block.id] = DCC.formatDate(parseInt(payload.slice(start, start+byteCount), 16));
-          start += byteCount;
-        }
-      });
-      blueprint = external.blueprint.schema[1].exclusive[(dcc.cert_type).toString()]
-      blueprint.forEach(block =>{
-        if (block.type === "int"){
-          dcc[block.id] = parseInt(payload.slice(start, start+block.bytes*2), 16);
-          start += block.bytes*2;
-        }
-        else if (block.type === "string"){
-          var byteCount = parseInt(payload.slice(start, start+block.bytes*2), 16) * 2;
-          start += block.bytes*2;
-          dcc[block.id] = hexToUtf8(payload.slice(start, start+byteCount));
-          start += byteCount;
-        }
-        else if (block.type === "date"){
-          var byteCount = parseInt(payload.slice(start, start+block.bytes*2), 16) * 2;
-          start += block.bytes*2;
-          dcc[block.id] = DCC.formatDate(parseInt(payload.slice(start, start+byteCount), 16));
-          start += byteCount;
-        }
+        else
+          throw new Error("Signature not valid.")
       });
       return dcc;
     }
     catch (error){
-      throw new Error("ERROR: DCC not recognized.");
+      console.error("ERROR: DCC not recognized.");
     }
   }
 

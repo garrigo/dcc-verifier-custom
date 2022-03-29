@@ -1,114 +1,118 @@
 {
-  "schema": [
-    {
-      "shared": [
-        {
-          "bytes": 1, 
-          "id": "algorithm", 
-          "type": "int"
+  "1": {
+    "schema": [
+      {
+        "bytes": 1, 
+        "id": "version", 
+        "type": "int"
+      }, 
+      {
+        "bytes": 1, 
+        "id": "algorithm", 
+        "type": "int"
+      }, 
+      {
+        "bytes": 2, 
+        "id": "kid", 
+        "type": "int"
+      }, 
+      {
+        "bytes": 1, 
+        "id": "not_before", 
+        "type": "date"
+      }, 
+      {
+        "bytes": 1, 
+        "id": "not_after", 
+        "type": "date"
+      }, 
+      {
+        "bytes": 1, 
+        "id": "name", 
+        "type": "string"
+      }, 
+      {
+        "bytes": 1, 
+        "id": "surname", 
+        "type": "string"
+      }, 
+      {
+        "bytes": 1, 
+        "id": "date_of_birth", 
+        "type": "date"
+      }, 
+      {
+        "bytes": 1, 
+        "id": "cert_type", 
+        "type": "int"
+      }, 
+      {
+        "bytes": 2, 
+        "id": "disease", 
+        "type": "int"
+      }, 
+      {
+        "cases": {
+          "1": [
+            {
+              "bytes": 2, 
+              "id": "vaccine", 
+              "type": "int"
+            }, 
+            {
+              "bytes": 1, 
+              "id": "doses_done", 
+              "type": "int"
+            }, 
+            {
+              "bytes": 2, 
+              "id": "doses_required", 
+              "type": "int"
+            }, 
+            {
+              "bytes": 1, 
+              "id": "date_vaccine", 
+              "type": "date"
+            }
+          ], 
+          "2": [
+            {
+              "bytes": 1, 
+              "id": "test_result", 
+              "type": "int"
+            }, 
+            {
+              "bytes": 2, 
+              "id": "test_used", 
+              "type": "int"
+            }, 
+            {
+              "bytes": 1, 
+              "id": "date_test", 
+              "type": "date"
+            }
+          ], 
+          "3": [
+            {
+              "bytes": 1, 
+              "id": "date_test", 
+              "type": "date"
+            }, 
+            {
+              "bytes": 1, 
+              "id": "date_from", 
+              "type": "date"
+            }, 
+            {
+              "bytes": 1, 
+              "id": "date_until", 
+              "type": "date"
+            }
+          ]
         }, 
-        {
-          "bytes": 2, 
-          "id": "kid", 
-          "type": "int"
-        }, 
-        {
-          "bytes": 1, 
-          "id": "not_before", 
-          "type": "date"
-        }, 
-        {
-          "bytes": 1, 
-          "id": "not_after", 
-          "type": "date"
-        }, 
-        {
-          "bytes": 1, 
-          "id": "name", 
-          "type": "string"
-        }, 
-        {
-          "bytes": 1, 
-          "id": "surname", 
-          "type": "string"
-        }, 
-        {
-          "bytes": 1, 
-          "id": "date_of_birth", 
-          "type": "date"
-        }, 
-        {
-          "bytes": 1, 
-          "id": "cert_type", 
-          "type": "int"
-        }, 
-        {
-          "bytes": 2, 
-          "id": "disease", 
-          "type": "int"
-        }
-      ]
-    }, 
-    {
-      "exclusive": {
-        "1": [
-          {
-            "bytes": 2, 
-            "id": "vaccine", 
-            "type": "int"
-          }, 
-          {
-            "bytes": 1, 
-            "id": "doses_done", 
-            "type": "int"
-          }, 
-          {
-            "bytes": 2, 
-            "id": "doses_required", 
-            "type": "int"
-          }, 
-          {
-            "bytes": 1, 
-            "id": "date_vaccine", 
-            "type": "date"
-          }
-        ], 
-        "2": [
-          {
-            "bytes": 1, 
-            "id": "test_result", 
-            "type": "int"
-          }, 
-          {
-            "bytes": 2, 
-            "id": "test_used", 
-            "type": "int"
-          }, 
-          {
-            "bytes": 1, 
-            "id": "date_test", 
-            "type": "date"
-          }
-        ], 
-        "3": [
-          {
-            "bytes": 1, 
-            "id": "date_test", 
-            "type": "date"
-          }, 
-          {
-            "bytes": 1, 
-            "id": "date_from", 
-            "type": "date"
-          }, 
-          {
-            "bytes": 1, 
-            "id": "date_until", 
-            "type": "date"
-          }
-        ]
+        "id": "cert_type", 
+        "type": "switch"
       }
-    }
-  ], 
-  "version": "1.0"
+    ]
+  }
 }

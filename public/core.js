@@ -77,6 +77,20 @@ async function loadExternal(){
     .catch(error => {
         console.error("Cannot fetch blueprint: " + error);
     });
+
+    await fetch('./data/certficateList.json')
+    .then(response => {
+        if (response.ok)
+            return response.json();
+        else
+            throw new Error('Fetching error');
+    })
+    .then(data => {
+        external.certificate = data;
+    })
+    .catch(error => {
+        console.error("Cannot fetch value sets: " + error);
+    });
 }
 // on load: load localization and set up qrscanner engine
 $(document).ready(async function () {
@@ -120,44 +134,15 @@ function revertScan() {
 async function verify(result) {
     // decode of cose content into dcc variable
     DCC.fromRaw(result, external).then(dcc => {
-        fetch('./data/certficateList.json')
-            .then(response => {
-                if (response.ok)
-                    return response.json();
-                else
-                    throw new Error('Fetching error');
-            })
-            .then(data => {
-                try{
-                    var pk_raw;       
-                    if (dcc.algorithm === 0){
-                        pk_raw = data["ECDSA"][dcc.kid]["publicKeyPem"];
-                    }   
-                    else if (dcc.algorithm === 1)
-                        pk_raw = data["RSA"][dcc.kid]["publicKeyPem"];
-                }
-                catch (error){
-                    throw new Error("ERROR: Algorithm not found.")
-                }
-                var pk = "-----BEGIN PUBLIC KEY-----\n"+pk_raw+"\n-----END PUBLIC KEY-----";
-                window.verify(dcc.payload, dcc.signature, pk, dcc.algorithm)
-                .then(result =>{
-                    var d = new Date(dcc.date_of_birth)
-                    var dob = ('0'+d.getUTCDate()).slice(-2) + '/' + ('0'+(d.getUTCMonth()+1)).slice(-2) + '/' + d.getUTCFullYear();
-                    if(result){
-                        areRulesValid(dcc).then( result =>{
-                            if(result) certValid(`${dcc.name} ${dcc.surname}`, dob); 
-                            else certNotValid(`${dcc.name} ${dcc.surname}`, dob); 
-                        });
-                    }
-                    else{
-                        certNotValid(`${dcc.name} ${dcc.surname}`, dob);
-                    }
-                });
-            }).catch(err =>{
+            var d = new Date(dcc.date_of_birth)
+            var dob = ('0'+d.getUTCDate()).slice(-2) + '/' + ('0'+(d.getUTCMonth()+1)).slice(-2) + '/' + d.getUTCFullYear();
+            areRulesValid(dcc).then( result =>{
+                if(result) certValid(`${dcc.name} ${dcc.surname}`, dob); 
+                else certNotValid(`${dcc.name} ${dcc.surname}`, dob); 
+            }).catch(err => {
                 certNotValid(`N/A`, `N/A`);
-                console.error(err);
-            });
+                console.error(err)
+            });;
         })
         .catch(err => {
             certNotValid(`N/A`, `N/A`);
