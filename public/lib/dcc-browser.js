@@ -63,15 +63,13 @@ class DCC {
       
       //test with iso 8859-1
       // dcc.payload = Buffer(payload, "latin1")
-      
-      let version = payload[0]
-      let algorithm = parseInt(payload[1])
+      let algorithm = parseInt(payload[0])
       let sigBytes = external.algorithm.valueSetValues[algorithm.toString()].signatureBytes;
       let signature = payload.slice(-sigBytes);
-      payload = payload.slice(0, -sigBytes);
+      payload = payload.slice(0, -sigBytes);      
+
       let payload_hex = new Buffer(payload).toString('hex');
-      
-      let kid = parseInt(payload_hex.slice(4, 8), 16).toString();
+      let kid = parseInt(payload_hex.slice(2, 6), 16).toString();
 
       try{
           var pk_raw;       
@@ -88,12 +86,15 @@ class DCC {
       await window.verify(payload, signature, pk, algorithm)
       .then(result =>{
         if (result){
-          var schema = external.blueprint[(version.toString())]["schema"]
+          
+          var schema = external.blueprint["schema"]
           dcc = {...dcc, ...decodeDCC(payload_hex, schema)["data"]}
+          console.log(dcc)
         }
         else
           throw new Error("Signature not valid.")
       });
+      console.log(dcc)
       return dcc;
     }
     catch (error){
