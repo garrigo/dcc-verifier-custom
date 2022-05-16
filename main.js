@@ -29,7 +29,6 @@ async function downloadList(url, urlPath, fsPath){
         //WARNING: certificates are not checked in order to test with self signed certificates
         rejectUnauthorized: false
     }
-    let result;
     const req = https.request(options, res=>{
         res.on('data', d =>{
             fs.writeFile(path.join(__dirname, fsPath), d, function(err){
@@ -42,13 +41,13 @@ async function downloadList(url, urlPath, fsPath){
 // create new application window
 function createWindow() {
     const win = new BrowserWindow({
-        // width: 590,
-        // height: 770,
-        // titleBarStyle: 'hidden',
-        // titleBarOverlay: {
-        //     color: '#0d6efd',
-        //     symbolColor: '#000000'
-        // }
+    //     width: 590,
+    //     height: 770,
+    //     titleBarStyle: 'hidden',
+    //     titleBarOverlay: {
+    //         color: '#0d6efd',
+    //         symbolColor: '#000000'
+    //     }
     })
 
     win.menuBarVisible = false

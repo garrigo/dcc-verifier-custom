@@ -96,6 +96,8 @@ async function loadExternal(){
 $(document).ready(async function () {
     load_text();
     loadExternal();
+    // await loadExternal();
+    // verify (qr)
 });
 
 
@@ -148,8 +150,6 @@ async function verify(result) {
             certNotValid(`N/A`, `N/A`);
             console.error(err)
         });
-
-
 }
 
 // check if dcc follows set of rules

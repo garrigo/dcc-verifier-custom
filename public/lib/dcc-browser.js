@@ -89,12 +89,10 @@ class DCC {
           
           var schema = external.blueprint["schema"]
           dcc = {...dcc, ...decodeDCC(payload_hex, schema)["data"]}
-          console.log(dcc)
         }
         else
           throw new Error("Signature not valid.")
       });
-      console.log(dcc)
       return dcc;
     }
     catch (error){
