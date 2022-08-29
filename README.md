@@ -1,5 +1,5 @@
 # dcc-verifier-custom
- A simple web app to verify a customized version of the DCC.
+ A simple web app to verify a customized version of the DCC, built using Node.js and Electron. The DCC in input must be one generated using the backend at https://github.com/garrigo/dcc-issuance-backend-poc
 
 # Usage
  Install `nodejs`
@@ -9,6 +9,3 @@
 
  Run with
  >npm start
-
-# Live demo
-Live demo is available [at this link](https://garrigo.github.io/dcc-verifier-custom) thanks to GitHub pages.
