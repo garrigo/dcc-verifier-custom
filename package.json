@@ -7,7 +7,7 @@
   "author": "Marco Carfizzi, Giacomo Arrigo",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^28.3.2"
+    "electron": "^35.7.5"
   },
   "scripts": {
     "start": "electron .",
